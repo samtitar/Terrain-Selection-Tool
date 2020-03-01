@@ -1,0 +1,59 @@
+<div id="map"></div>
+<div id="submit">DOWNLOAD</div>
+
+<script>
+var marker1, marker2;
+var colors = "#A155B9";
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2FtdGl0YXIiLCJhIjoiY2p6ZTAwMjJoMDM2ejNvcGhtNHk0Ynh0dSJ9.fl7ttgIMMLDjiO92cqFtlA';
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/cjyknt4bl00tf1cny916vrpid',
+    center: [-73.9876, 40.7661],
+    zoom: 9
+});
+
+var Draw = new MapboxDraw();
+
+map.on('click', function(e) {
+    var options = {
+        steps: 80,
+        units: 'kilometers'
+    }
+
+    if (marker1 === undefined) {
+        marker1 = new mapboxgl.Marker({ draggable: true, color: colors })
+            .setLngLat(e.lngLat)
+            .addTo(map);
+    } else if (marker2 === undefined) {
+        marker2 = new mapboxgl.Marker({ draggable: true, color: colors })
+            .setLngLat(e.lngLat)
+            .addTo(map);
+    }
+});
+
+$("#submit").click(function() {
+    if (marker1 !== undefined && marker2 !== undefined) {
+        var marker1_coord = marker1.getLngLat().toArray();
+        var marker2_coord = marker2.getLngLat().toArray();
+
+        var get_data = {
+            "lng_a": marker1_coord[0],
+            "lat_a": marker1_coord[1],
+            "lng_b": marker2_coord[0],
+            "lat_b": marker2_coord[1]
+        };
+
+        $.get("/start_download", get_data).done(function(result) {
+            if (result["success"] == 1) {
+                alert("Starting terrain download");
+            } else {
+                alert("Something went wrong while starting download");
+            }
+        });
+    } else {
+        alert("Add two markers to the map.");
+    }
+});
+</script>
