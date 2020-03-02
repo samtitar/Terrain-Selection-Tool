@@ -1,0 +1,36 @@
+<div id="map"></div>
+
+<script>
+var colors = "#A155B9";
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2FtdGl0YXIiLCJhIjoiY2p6ZTAwMjJoMDM2ejNvcGhtNHk0Ynh0dSJ9.fl7ttgIMMLDjiO92cqFtlA';
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-73.9876, 40.7661],
+    zoom: 9
+});
+
+var ident = getUrlParameter("ident")
+
+$.get("/get_download", { "ident": ident }).done(function(result) {
+    if (result["success"] == 1) {
+        for (var i = 0; i < result["data"].length; i++) {
+            var lng_lat_a = new mapboxgl.LngLat(result["data"][i][0][0], result["data"][i][0][1]);
+            var lng_lat_b = new mapboxgl.LngLat(result["data"][i][1][0], result["data"][i][1][1]);
+
+            var marker = new mapboxgl.Marker({ color: colors })
+                .setLngLat(lng_lat_a)
+                .addTo(map);
+            
+            var marker = new mapboxgl.Marker({ color: colors })
+                .setLngLat(lng_lat_b)
+                .addTo(map);
+        }
+    } else {
+        alert("Something went wrong while getting download");
+    }
+});
+
+</script>

@@ -45,3 +45,53 @@ input[type=text] {
 .button:hover {
     background-color: #F765A3;
 }
+
+.header {
+    width: 100%;
+    font-family: 'Roboto';
+    text-align: center;
+    font-size: 30px;
+    background-color: #A155B9;
+    padding: 20px 0;
+    color: white;
+}
+
+.downloads-list-container {
+    width: 80%;
+    margin: 30px 10%;
+}
+
+.downloads-list {
+    width: 100%;
+    font-family: 'Roboto';
+}
+
+.downloads-list tr {
+    text-align: left;
+}
+
+.downloads-list tr th {
+    background: #A155B9;
+    margin: 0;
+    color: white;
+    padding: 10px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.downloads-list tr td {
+    padding: 10px;
+}
+
+.downloads-list tr:nth-child(even) { background-color: #f2f2f2; }
+
+.progress-container {
+    border: 1px solid #A155B9;
+}
+
+.progress {
+    background-color: #A155B9;
+    color: white;
+    text-align: center;
+    line-height: 30px;
+}
