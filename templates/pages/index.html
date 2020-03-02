@@ -1,5 +1,9 @@
-<div id="map"></div>
-<div id="submit">DOWNLOAD</div>
+<div id="map"></div>'
+<div class="inputs">
+    <input type="text" id="name" placeholder="Map name" />
+    <input type="text" id="terrain" placeholder="Terrain type" />
+    <div id="submit" class="button">DOWNLOAD</div>
+</div>
 
 <script>
 var marker1, marker2;
@@ -34,15 +38,31 @@ map.on('click', function(e) {
 });
 
 $("#submit").click(function() {
-    if (marker1 !== undefined && marker2 !== undefined) {
+    var name = $("#name").val();
+    var terrain = $("#terrain").val();
+
+    $("#name").css("border", "none");
+    $("#terrain").css("border", "none");
+
+    if (marker1 === undefined || marker2 === undefined) {
+        alert("Add two markers to the map.");
+    } else if (name === "") {
+        alert("Specify a name for the map.");
+        $("#name").css("border", "1px solid red");
+    } else if (terrain === "") {
+        alert("Specify a terrain type for the map.");
+        $("#terrain").css("border", "1px solid red");
+    } else {
         var marker1_coord = marker1.getLngLat().toArray();
         var marker2_coord = marker2.getLngLat().toArray();
 
         var get_data = {
-            "lng_a": marker1_coord[0],
-            "lat_a": marker1_coord[1],
-            "lng_b": marker2_coord[0],
-            "lat_b": marker2_coord[1]
+            "lat_a": marker1_coord[0],
+            "lng_a": marker1_coord[1],
+            "lat_b": marker2_coord[0],
+            "lng_b": marker2_coord[1],
+            "name": name,
+            "terrain": terrain
         };
 
         $.get("/start_download", get_data).done(function(result) {
@@ -52,8 +72,6 @@ $("#submit").click(function() {
                 alert("Something went wrong while starting download");
             }
         });
-    } else {
-        alert("Add two markers to the map.");
     }
 });
 </script>

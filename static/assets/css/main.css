@@ -11,20 +11,37 @@ html, body {
     width: 100%;
 }
 
-#submit {
-    font-family: 'Roboto';
+.inputs {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    background-color: #A155B9;
-    border: none;
-    padding: 15px 32px;
-    text-align: center;
-    font-size: 30px;
-    color: white;
-    border-radius: 50px;
+    width: auto;
 }
 
-#submit:hover {
+input[type=text] {
+    border-radius: 25px;
+    padding: 7px 16px;
+    font-size: 15px;
+    margin-bottom: 10px;
+    box-shadow: none;
+    border: none;
+}
+
+#submit {
+    font-size: 15px;
+}
+
+.button {
+    font-family: 'Roboto';
+    background-color: #A155B9;
+    border: none;
+    text-align: center;
+    padding: 7px 16px;
+    color: white;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.button:hover {
     background-color: #F765A3;
 }
