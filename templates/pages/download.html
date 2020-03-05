@@ -1,7 +1,7 @@
 <div id="map"></div>
 
 <script>
-var colors = "#A155B9";
+var colors = ["#F765A3", "#A155B9"];
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2FtdGl0YXIiLCJhIjoiY2p6ZTAwMjJoMDM2ejNvcGhtNHk0Ynh0dSJ9.fl7ttgIMMLDjiO92cqFtlA';
 
@@ -16,17 +16,59 @@ var ident = getUrlParameter("ident")
 
 $.get("/get_download", { "ident": ident }).done(function(result) {
     if (result["success"] == 1) {
-        for (var i = 0; i < result["data"].length; i++) {
-            var lng_lat_a = new mapboxgl.LngLat(result["data"][i][0][0], result["data"][i][0][1]);
-            var lng_lat_b = new mapboxgl.LngLat(result["data"][i][1][0], result["data"][i][1][1]);
+        var bounds = result["data"]["bounds"];
+        var chunks = result["data"]["chunks"]
 
-            var marker = new mapboxgl.Marker({ color: colors })
+        var lng_lat_a = new mapboxgl.LngLat(bounds[0]["Lng"], bounds[0]["Lat"]);
+        var lng_lat_b = new mapboxgl.LngLat(bounds[1]["Lng"], bounds[1]["Lat"]);
+
+        var marker1 = new mapboxgl.Marker({ color: colors[0] })
+            .setLngLat(lng_lat_a)
+            .addTo(map);
+        
+        var popup1 = new mapboxgl.Popup()
+            .setHTML("<b>Upper Left Boudnd</b><br>" +
+                     "<b>Latitude:  </b> " + lng_lat_a.lat + "<br>" +
+                     "<b>Longitude: </b> " + lng_lat_a.lng + "<br>");
+        
+        marker1.setPopup(popup1);
+        
+        var marker2 = new mapboxgl.Marker({ color: colors[0] })
+            .setLngLat(lng_lat_b)
+            .addTo(map);
+
+        var popup2 = new mapboxgl.Popup()
+            .setHTML("<b>Lower Right Bound</b><br>" +
+                    "<b>Latitude:  </b> " + lng_lat_b.lat + "<br>" +
+                    "<b>Longitude: </b> " + lng_lat_b.lng + "<br>");
+        
+        marker2.setPopup(popup2);
+
+        for (var i = 0; i < chunks.length; i++) {
+            lng_lat_a = new mapboxgl.LngLat(chunks[i][0]["Lng"], chunks[i][0]["Lat"]);
+            lng_lat_b = new mapboxgl.LngLat(chunks[i][1]["Lng"], chunks[i][1]["Lat"]);
+
+            marker1 = new mapboxgl.Marker({ color: colors[1] })
                 .setLngLat(lng_lat_a)
                 .addTo(map);
             
-            var marker = new mapboxgl.Marker({ color: colors })
+            popup1 = new mapboxgl.Popup()
+                .setHTML("<b>Point A</b><br> " +
+                         "<b>Latitude:  </b> " + lng_lat_a.lat + "<br>" +
+                         "<b>Longitude: </b> " + lng_lat_a.lng + "<br>");
+            
+            marker1.setPopup(popup1);
+            
+            marker2 = new mapboxgl.Marker({ color: colors[1] })
                 .setLngLat(lng_lat_b)
                 .addTo(map);
+
+            popup2 = new mapboxgl.Popup()
+                .setHTML("<b>Point B</b><br> " +
+                         "<b>Latitude:  </b> " + lng_lat_b.lat + "<br>" +
+                         "<b>Longitude: </b> " + lng_lat_b.lng + "<br>");
+            
+            marker2.setPopup(popup2);
         }
     } else {
         alert("Something went wrong while getting download");

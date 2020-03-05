@@ -53,14 +53,14 @@ $("#submit").click(function() {
         alert("Specify a terrain type for the map.");
         $("#terrain").css("border", "1px solid red");
     } else {
-        var marker1_coord = marker1.getLngLat().toArray();
-        var marker2_coord = marker2.getLngLat().toArray();
+        var marker1_coord = marker1.getLngLat();
+        var marker2_coord = marker2.getLngLat();
 
         var get_data = {
-            "lat_a": marker1_coord[0],
-            "lng_a": marker1_coord[1],
-            "lat_b": marker2_coord[0],
-            "lng_b": marker2_coord[1],
+            "lat_a": marker1_coord.lat,
+            "lng_a": marker1_coord.lng,
+            "lat_b": marker2_coord.lat,
+            "lng_b": marker2_coord.lng,
             "name": name,
             "terrain": terrain
         };

@@ -26,7 +26,7 @@
 
                 var progress_bar =
                     "<div class=\"progress-container\">" +
-                        "<div class=\"progress\" style=\"height: 30px; width: " + row_data["progress"] + "%\">" +
+                        "<div id=\"progress_" + i + "\" class=\"progress\" style=\"height: 30px; width: " + row_data["progress"] + "%\">" +
                             row_data["progress"] +
                         "%</div>" +
                     "</div>";
@@ -40,6 +40,23 @@
 
                 $("#downloadsList tbody").append(row);
             }
+
+            setInterval(function() {
+                $.get("/get_downloads").done(function(result) {
+                    if (result["success"] == 1) {
+                        for (var i = 0; i < result["data"].length; i++) {
+                            var row_data = result["data"][i];
+
+                            value = Math.round(row_data["progress"] * 100) / 100
+
+                            $("#progress_" + i).css("width", value + "%");
+                            $("#progress_" + i).html(value + "%");
+                        }
+                    } else {
+                        alert("Something went wrong while getting downloads");
+                    }
+                });
+            }, 1000);
         } else {
             alert("Something went wrong while getting downloads");
         }
