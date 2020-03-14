@@ -6,8 +6,10 @@
             <tr>
                 <th>Name</th>
                 <th>Progress</th>
+                <th>Status</th>
                 <th>Start Date</th>
                 <th>Terrain Type</th>
+                <th>Number of chunks</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -33,8 +35,10 @@
                 
                 row.append("<td data-title=\"Name\">" + row_data["name"] + "</td>");
                 row.append("<td data-title=\"Progress\">" + progress_bar + "</td>");
+                row.append("<td data-title=\"Status\" id=\"status_\"" + i + ">" + row_data["status"] + "</td>");
                 row.append("<td data-title=\"Start Date\">" + row_data["start"] + "</td>");
                 row.append("<td data-title=\"Terrain Type\">" + row_data["terrain"] + "</td>");
+                row.append("<td data-title=\"Number of chunks\">" + row_data["num_chunks"] + "</td>");
                 row.append("<td data-title=\"View\"><div class=\"button\">View</div></td>");
                 row.append("<td data-title=\"Stop\"><div class=\"button\">Stop</div></td>");
 
@@ -51,6 +55,7 @@
 
                             $("#progress_" + i).css("width", value + "%");
                             $("#progress_" + i).html(value + "%");
+                            $("#status_" + i).html(row_data["status"])
                         }
                     } else {
                         alert("Something went wrong while getting downloads");
